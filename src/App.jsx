@@ -21,12 +21,11 @@ function App() {
   const fetchNews = async () => {
     setLoading(true);
     setError(null);
-
     try {
       const response = await axios.get(
         `https://newsapi.org/v2/top-headlines?country=us&category=${category}&page=${currentPage}&pageSize=${PAGE_SIZE}&apiKey=${API_KEY}`
       );
-      // console.log(response);
+      console.log(response);
       const articles = response.data.articles || [];
       setNews(articles);
       setTotalResults(response.data.totalResults || 0);
@@ -52,13 +51,14 @@ function App() {
   const handleNext = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
+
   return (
     <div className="min-h-screen">
       <header className="bg-white shadow-sm sticky top-0 z-20">
         <div className="container mx-auto px-4 py-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-md bg-brand text-white flex items-center justify-center font-bold shadow cursor-pointer">
-              <img src={newicon} alt="" />
+              <img src={newicon} alt="news" />
             </div>
             <h1 className="text-2xl text-blue-400 font-semibold">Uzita News</h1>
           </div>
@@ -72,30 +72,22 @@ function App() {
         <div className="mb-6">
           <div className="flex flex-col items-start md:items-center gap-3">
             <div className="w-full md:w-auto">
-              <Category
-                category={category}
-                onCategoryChange={handleCategoryChange}
-              />
+              <Category category={category} onCategoryChange={handleCategoryChange} />
             </div>
-            {/* <div className="text-sm text-slate-600">
-              Total results: {totalResults}
-            </div> */}
           </div>
         </div>
 
-        <section className="">
+        <section>
           {loading && (
-            <div className="py-20 flex items-center justify-center">
-              <div className="text-slate-500">Loading latest headlines...</div>
+            <div className="py-20 flex items-center justify-center text-slate-500">
+              Loading latest headlines...
             </div>
           )}
-
           {error && (
             <div className="p-6 bg-red-50 border border-red-100 text-red-700 rounded">
               {error}
             </div>
           )}
-
           {!loading && !error && (
             <>
               <NewList articles={news} category={category} />
@@ -113,7 +105,8 @@ function App() {
           )}
         </section>
       </main>
-      <Footer/>
+
+      <Footer />
     </div>
   );
 }
