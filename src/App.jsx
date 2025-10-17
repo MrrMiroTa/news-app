@@ -15,22 +15,22 @@ function App() {
   const [totalResults, setTotalResults] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
 
-  const API_KEY = import.meta.env.VITE_API_KEY;
+  // const API_KEY = import.meta.env.VITE_API_KEY;
   const PAGE_SIZE = 20;
 
   const fetchNews = async () => {
     setLoading(true);
     setError(null);
-    try {
+   try {
       const response = await axios.get(
-        `https://newsapi.org/v2/top-headlines?country=us&category=${category}&page=${currentPage}&pageSize=${PAGE_SIZE}&apiKey=${API_KEY}`
+        `/api/news?category=${category}&page=${currentPage}`
       );
-      console.log(response);
       const articles = response.data.articles || [];
       setNews(articles);
       setTotalResults(response.data.totalResults || 0);
       setTotalPages(Math.ceil((response.data.totalResults || 0) / PAGE_SIZE));
     } catch (err) {
+      console.error(err); // Debug: see exact error
       setError("Failed to fetch news.");
     } finally {
       setLoading(false);
